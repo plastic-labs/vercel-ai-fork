@@ -175,6 +175,40 @@ Supermemory works with any AI SDK provider. The tools give the model `addMemory`
 
 See the [Supermemory provider documentation](/providers/community-providers/supermemory) for full setup and configuration.
 
+### Honcho
+
+[Honcho](https://honcho.dev) is a reasoning-native memory fabric for AI SDK apps. It goes beyond traditional RAG-style retrieval by agentically deriving conclusions, maintaining an evolving user representation, and reinjecting context automatically with every turn.
+
+```bash
+pnpm add @honcho-ai/ai-sdk
+```
+
+```ts
+import { createHoncho } from '@honcho-ai/ai-sdk';
+import { generateText } from 'ai';
+__PROVIDER_IMPORT__;
+
+const honcho = createHoncho({
+  allowDefaultWorkspace: true,
+  // or set HONCHO_WORKSPACE_ID explicitly
+});
+
+const { text } = await generateText({
+  model: __MODEL__,
+  middleware: honcho.middleware({
+    userId: 'user-123',
+    sessionId: 'chat-456',
+  }),
+  tools: honcho.tools({
+    userId: 'user-123',
+    sessionId: 'chat-456',
+  }),
+  prompt: 'Remember that my favorite editor is Neovim',
+});
+```
+
+See the [Honcho provider documentation](/providers/community-providers/honcho) for setup, defaults, and full API details.
+
 ### Hindsight
 
 [Hindsight](/providers/community-providers/hindsight) provides agents with persistent memory through five tools: `retain`, `recall`, `reflect`, `getMentalModel`, and `getDocument`. It can be self-hosted with Docker or used as a cloud service.
